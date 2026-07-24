@@ -1,15 +1,10 @@
 import os
 
 from fastmcp import FastMCP
-from fastmcp.tools import Tool, tool
+from fastmcp.tools import Tool
 from fastmcp.client.transports import StdioTransport
 from fastmcp.server import create_proxy
-from fastmcp.server.transforms import ToolTransform
-from fastmcp.tools.tool_transform import (
-    ToolTransformConfig,
-    ArgTransformConfig,
-    ArgTransform,
-)
+from fastmcp.tools.tool_transform import ArgTransform
 
 if __name__ == "__main__":
     import asyncio
