@@ -1,3 +1,9 @@
+## Formatter
+
+```sh
+uvx ruff format
+```
+
 ## Debugging
 
 ```sh
