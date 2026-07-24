@@ -1,3 +1,13 @@
+## Getting Started
+
+```sh
+# Build the image
+podman build -t agent-browser-mcp .
+
+# Start the MCP server
+podman run -e CDP_PORT=9222 -p 8000:8000 agent-browser-mcp
+```
+
 ## Environment Variables
 
 |Variable|Default|Description|
