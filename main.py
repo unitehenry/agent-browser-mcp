@@ -1,4 +1,4 @@
-import json
+import os
 
 from fastmcp import FastMCP
 from fastmcp.tools import Tool, tool
@@ -25,7 +25,7 @@ if __name__ == "__main__":
                 Tool.from_tool(
                     tool,
                     transform_args={
-                        "extraArgs": ArgTransform(default=["--cdp", "9222"]),
+                        "extraArgs": ArgTransform(default=["--cdp", os.getenv("CDP_PORT", "9222")]),
                     },
                 )
             )
