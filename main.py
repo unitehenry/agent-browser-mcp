@@ -5,6 +5,7 @@ from fastmcp.tools import Tool
 from fastmcp.client.transports import StdioTransport
 from fastmcp.server import create_proxy
 from fastmcp.tools.tool_transform import ArgTransform
+from fastmcp.server.middleware.rate_limiting import RateLimitingMiddleware
 
 if __name__ == "__main__":
     import asyncio
@@ -14,7 +15,7 @@ if __name__ == "__main__":
 
     mcp = FastMCP("AgentBrowser")
 
-    async def main():
+    async def setup():
         for tool in await proxy.list_tools():
             mcp.add_tool(
                 Tool.from_tool(
@@ -29,6 +30,11 @@ if __name__ == "__main__":
                 )
             )
 
-    asyncio.run(main())
+        mcp.add_middleware(RateLimitingMiddleware(
+            max_requests_per_second=10.0,
+            burst_capacity=20
+        ))
+
+    asyncio.run(setup())
 
     mcp.run(transport=os.getenv("MCP_TRANSPORT", "sse"), host="0.0.0.0", port=8000)
