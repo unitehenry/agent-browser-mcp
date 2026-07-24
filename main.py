@@ -30,10 +30,9 @@ if __name__ == "__main__":
                 )
             )
 
-        mcp.add_middleware(RateLimitingMiddleware(
-            max_requests_per_second=10.0,
-            burst_capacity=20
-        ))
+        mcp.add_middleware(
+            RateLimitingMiddleware(max_requests_per_second=10.0, burst_capacity=20)
+        )
 
     asyncio.run(setup())
 
