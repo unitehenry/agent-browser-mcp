@@ -29,4 +29,4 @@ if __name__ == "__main__":
 
     asyncio.run(main())
 
-    mcp.run(transport=os.getenv("MCP_TRANSPORT", "sse"), port=8000)
+    mcp.run(transport=os.getenv("MCP_TRANSPORT", "sse"), host="0.0.0.0", port=8000)
