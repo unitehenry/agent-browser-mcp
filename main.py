@@ -20,7 +20,9 @@ if __name__ == "__main__":
                 Tool.from_tool(
                     tool,
                     transform_args={
-                        "extraArgs": ArgTransform(default=["--cdp", os.getenv("CDP_PORT", "9222")]),
+                        "extraArgs": ArgTransform(
+                            default=["--cdp", os.getenv("CDP_PORT", "9222")]
+                        ),
                     },
                 )
             )
