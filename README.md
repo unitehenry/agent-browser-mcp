@@ -1,3 +1,7 @@
+# Agent Browser MCP
+
+Proxy [`agent-browser mcp`](https://github.com/vercel-labs/agent-browser#setup) stdio over HTTP/SSE using [FastMCP](https://gofastmcp.com/servers/providers/proxy).
+
 ## Getting Started
 
 ```sh
