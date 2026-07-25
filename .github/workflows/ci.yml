@@ -61,12 +61,12 @@ jobs:
       - name: Install FastMCP CLI
         run: |
           uv venv
-          source venv/bin/activate
+          source .venv/bin/activate
           uv pip install fastmcp
 
       - name: Open Page
         run: |
-          source venv/bin/activate
+          source .venv/bin/activate
           fastmcp call http://127.0.0.1:8000/sse agent_browser_open url=google.com
 
       - name: Cleanup
