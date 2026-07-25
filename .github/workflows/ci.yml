@@ -72,7 +72,7 @@ jobs:
       - name: Cleanup
         run: |
           docker stop xpod-chromium
-          docker stop test
+          docker stop agent-browser-mcp
           docker rm xpod-chromium
-          docker rm test
+          docker rm agent-browser-mcp
           docker network rm mcp
