@@ -11,6 +11,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+
       - name: Lint
         run: uvx ruff check
 
