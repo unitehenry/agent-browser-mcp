@@ -13,3 +13,20 @@ jobs:
 
       - name: Lint
         run: uvx ruff check
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build container
+        run: docker build -f Containerfile -t agent-browser-mcp .
+
+      - name: Run image
+        run: |
+          docker run -d -e CDP_PORT=9222 --name test agent-browser-mcp
+          sleep 3
+          docker logs test
+          docker stop test || true
+          docker rm test || true
