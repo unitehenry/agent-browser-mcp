@@ -11,6 +11,38 @@ from fastmcp.tools import Tool
 from fastmcp.tools.tool_transform import ArgTransform
 
 
+def resolve_hostname_in_url(url: str) -> str:
+    """
+    Attempt to resolve the hostname in a URL to an IP address and replace it.
+    Returns the original URL unchanged if resolution fails or no hostname is present.
+    
+    Example:
+        resolve_hostname_in_url("http://xpod-chromium:9222")
+        → "http://172.17.0.2:9222"   (or whatever the IP is)
+    """
+    from urllib.parse import urlparse, urlunparse
+    import socket
+
+    parsed = urlparse(url)
+
+    if not parsed.hostname:
+        return url
+
+    try:
+        ip = socket.gethostbyname(parsed.hostname)
+    except socket.gaierror:
+        return url
+
+    # Rebuild netloc (host:port)
+    netloc = ip
+
+    if parsed.port is not None:
+        netloc = f"{ip}:{parsed.port}"
+
+    new_parsed = parsed._replace(netloc=netloc)
+
+    return urlunparse(new_parsed)
+
 class AuthMiddleware(Middleware):
     async def on_request(self, context: MiddlewareContext, call_next):
         token = get_access_token()
