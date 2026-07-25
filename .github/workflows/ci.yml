@@ -49,7 +49,7 @@ jobs:
         run: |
           docker run -d \
             --network=mcp \
-            -e CDP_PORT="http://$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' xpod-chromum):9222" \
+            -e CDP_PORT="http://$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' xpod-chromium):9222" \
             -p 127.0.0.1:8000:8000 \
             --name agent-browser-mcp \
             agent-browser-mcp
