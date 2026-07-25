@@ -18,8 +18,8 @@ class AuthMiddleware(Middleware):
         if token is None:
             raise AuthorizationError("Unauthorized")
 
-        if token.claims.get("login") != "unitehenry":
-            print(token.claims)
+        if token.claims.get("login") != os.getenv("GITHUB_USERNAME", "").strip():
+            raise AuthorizationError("Unauthorized")
 
         result = await call_next(context)
 
@@ -30,6 +30,8 @@ def auth():
     if not os.getenv("GITHUB_CLIENT_ID"):
         return None
     if not os.getenv("GITHUB_CLIENT_SECRET"):
+        return None
+    if not os.getenv("GITHUB_USERNAME"):
         return None
     if not os.getenv("BASE_URL"):
         return None
