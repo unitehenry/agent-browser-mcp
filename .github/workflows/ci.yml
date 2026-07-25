@@ -20,6 +20,23 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup xpod-chromium
+        run: |
+          git clone https://github.com/unitehenry/xpod
+          docker build -t xpod-base -f xpod/base/Containerfile base
+          docker build -t xpod-chromium -f apps/chromium/Containerfile apps/chromium
+
+      - name: Start xpod-chromium
+        run: |
+          docker run -d \
+          --cap-add=SYS_ADMIN \
+          -e VNC_PASSWORD="vncpass" \
+          -p 5900:5900 \
+          -p 9222:9222 \
+          --name xpod-chromium \
+          xpod-chromium
+          sleep 8
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -30,6 +47,10 @@ jobs:
         run: |
           docker run -d -e CDP_PORT=9222 --name test agent-browser-mcp
           sleep 3
-          docker logs test
-          docker stop test || true
-          docker rm test || true
+
+      - name: Cleanup
+        run: |
+          docker stop xpod-chromium
+          docker stop test
+          docker rm xpod-chromium
+          docker rm test
