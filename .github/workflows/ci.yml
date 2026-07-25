@@ -20,6 +20,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup docker network
+        run: docker network create mcp
+
       - name: Setup xpod-chromium
         run: |
           git clone https://github.com/unitehenry/xpod
@@ -29,12 +32,11 @@ jobs:
       - name: Start xpod-chromium
         run: |
           docker run -d \
-          --cap-add=SYS_ADMIN \
-          -e VNC_PASSWORD="vncpass" \
-          -p 5900:5900 \
-          -p 9222:9222 \
-          --name xpod-chromium \
-          xpod-chromium
+            --network=mcp \
+            --cap-add=SYS_ADMIN \
+            -e VNC_PASSWORD="vncpass" \
+            --name xpod-chromium \
+            xpod-chromium
           sleep 8
 
       - name: Checkout
@@ -45,8 +47,22 @@ jobs:
 
       - name: Run image
         run: |
-          docker run -d -e CDP_PORT=9222 --name test agent-browser-mcp
+          docker run -d \
+            --network=mcp \
+            -e CDP_PORT="http://$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' xpod-chromum):9222" \
+            -p 127.0.0.1:8000:8000 \
+            --name agent-browser-mcp \
+            agent-browser-mcp
           sleep 3
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install FastMCP CLI
+        run: uv install fastmcp
+
+      - name: Open Page
+        run: fastmcp call http://127.0.0.1:8000/sse agent_browser_open url=google.com
 
       - name: Cleanup
         run: |
@@ -54,3 +70,4 @@ jobs:
           docker stop test
           docker rm xpod-chromium
           docker rm test
+          docker network rm mcp
