@@ -1,14 +1,14 @@
 import os
 
 from fastmcp import FastMCP
-from fastmcp.tools import Tool
 from fastmcp.client.transports import StdioTransport
-from fastmcp.server import create_proxy
-from fastmcp.tools.tool_transform import ArgTransform
-from fastmcp.server.middleware import Middleware, MiddlewareContext
 from fastmcp.exceptions import AuthorizationError
-from fastmcp.server.dependencies import get_access_token
+from fastmcp.server import create_proxy
 from fastmcp.server.auth.providers.github import GitHubProvider
+from fastmcp.server.dependencies import get_access_token
+from fastmcp.server.middleware import Middleware, MiddlewareContext
+from fastmcp.tools import Tool
+from fastmcp.tools.tool_transform import ArgTransform
 
 
 class AuthMiddleware(Middleware):
