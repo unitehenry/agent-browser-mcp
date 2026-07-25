@@ -5,11 +5,8 @@ from fastmcp.tools import Tool
 from fastmcp.client.transports import StdioTransport
 from fastmcp.server import create_proxy
 from fastmcp.tools.tool_transform import ArgTransform
-from fastmcp.server.middleware.rate_limiting import RateLimitingMiddleware
 from fastmcp.server.middleware import Middleware, MiddlewareContext
 from fastmcp.exceptions import AuthorizationError
-from fastmcp.server.auth import OAuthProxy
-from fastmcp.server.auth.providers.jwt import JWTVerifier
 from fastmcp.server.dependencies import get_access_token
 from fastmcp.server.auth.providers.github import GitHubProvider
 
