@@ -33,7 +33,7 @@ These are required to enable GitHub OAuth authentication (otherwise auth is disa
 ## Formatter
 
 ```sh
-uvx ruff format
+uvx ruff check --fix
 ```
 
 ## Debugging
