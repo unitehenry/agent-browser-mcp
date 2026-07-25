@@ -23,8 +23,8 @@ jobs:
       - name: Setup xpod-chromium
         run: |
           git clone https://github.com/unitehenry/xpod
-          docker build -t xpod-base -f xpod/base/Containerfile base
-          docker build -t xpod-chromium -f apps/chromium/Containerfile apps/chromium
+          docker build -t xpod-base -f xpod/base/Containerfile xpod/base
+          docker build -t xpod-chromium -f xpod/apps/chromium/Containerfile xpod/apps/chromium
 
       - name: Start xpod-chromium
         run: |
