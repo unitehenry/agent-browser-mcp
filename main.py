@@ -13,6 +13,7 @@ from fastmcp.server.auth.providers.jwt import JWTVerifier
 from fastmcp.server.dependencies import get_access_token
 from fastmcp.server.auth.providers.github import GitHubProvider
 
+
 class AuthMiddleware(Middleware):
     async def on_request(self, context: MiddlewareContext, call_next):
         token = get_access_token()
@@ -27,16 +28,21 @@ class AuthMiddleware(Middleware):
 
         return result
 
+
 def auth():
-    if not os.getenv("GITHUB_CLIENT_ID"): return None
-    if not os.getenv("GITHUB_CLIENT_SECRET"): return None
-    if not os.getenv("BASE_URL"): return None
+    if not os.getenv("GITHUB_CLIENT_ID"):
+        return None
+    if not os.getenv("GITHUB_CLIENT_SECRET"):
+        return None
+    if not os.getenv("BASE_URL"):
+        return None
 
     return GitHubProvider(
         client_id=os.getenv("GITHUB_CLIENT_ID"),
         client_secret=os.getenv("GITHUB_CLIENT_SECRET"),
-        base_url=os.getenv("BASE_URL")
+        base_url=os.getenv("BASE_URL"),
     )
+
 
 if __name__ == "__main__":
     import asyncio
