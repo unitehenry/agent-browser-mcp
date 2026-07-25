@@ -70,6 +70,7 @@ jobs:
           fastmcp call http://127.0.0.1:8000/sse agent_browser_open url=google.com
 
       - name: Cleanup
+        if: always()
         run: |
           docker stop xpod-chromium
           docker stop agent-browser-mcp
