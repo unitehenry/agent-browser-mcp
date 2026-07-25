@@ -59,7 +59,7 @@ jobs:
         uses: astral-sh/setup-uv@v5
 
       - name: Install FastMCP CLI
-        run: uv pip install fastmcp
+        run: uv --system pip install fastmcp
 
       - name: Open Page
         run: fastmcp call http://127.0.0.1:8000/sse agent_browser_open url=google.com
