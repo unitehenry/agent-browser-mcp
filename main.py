@@ -27,19 +27,24 @@ class AuthMiddleware(Middleware):
 
         return result
 
+def auth():
+    if not os.getenv("GITHUB_CLIENT_ID"): return None
+    if not os.getenv("GITHUB_CLIENT_SECRET"): return None
+    if not os.getenv("BASE_URL"): return None
+
+    return GitHubProvider(
+        client_id=os.getenv("GITHUB_CLIENT_ID"),
+        client_secret=os.getenv("GITHUB_CLIENT_SECRET"),
+        base_url=os.getenv("BASE_URL")
+    )
+
 if __name__ == "__main__":
     import asyncio
 
     transport = StdioTransport(command="agent-browser", args=["mcp"])
     proxy = create_proxy(transport, name="AgentBrowserProxy")
 
-    auth = GitHubProvider(
-        client_id="Ov23liCRP7viT9hrgP0E",
-        client_secret="74c442d0b92e762f09891ce5c060032e9e4a1228",
-        base_url="https://dc92-172-92-31-26.ngrok-free.app"
-    )
-
-    mcp = FastMCP("AgentBrowser", auth=auth)
+    mcp = FastMCP("AgentBrowser", auth=auth())
 
     async def setup():
         for tool in await proxy.list_tools():
@@ -56,7 +61,8 @@ if __name__ == "__main__":
                 )
             )
 
-        mcp.add_middleware(AuthMiddleware())
+        if mcp.auth:
+            mcp.add_middleware(AuthMiddleware())
 
     asyncio.run(setup())
 
