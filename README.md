@@ -17,7 +17,7 @@ podman run -e CDP_PORT=9222 -p 8000:8000 agent-browser-mcp
 |Variable|Default|Description|
 |:-:|:-:|:-:|
 |`MCP_TRANSPORT`|`sse`|The [FastMCP transport](https://gofastmcp.com/v3/servers/server#running-the-server) to use. (STDIO, HTTP, SSE)|
-|`CDP_PORT`||The Chrome DevTools Protocol for `agent-browser` connect to.|
+|`CDP_PORT`||The Chrome DevTools Protocol for `agent-browser` to connect.|
 
 ### GitHub Auth
 
