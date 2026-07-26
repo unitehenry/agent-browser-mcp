@@ -75,6 +75,16 @@ if __name__ == "__main__":
 
     mcp = FastMCP("AgentBrowser", auth=auth())
 
+    @mcp.custom_route("/healthz", methods=["GET"])
+    async def health_check(request: Request) -> PlainTextResponse:
+        return PlainTextResponse("OK")
+
+    @mcp.custom_route("/", methods=["GET"])
+    async def health_check(request: Request) -> PlainTextResponse:
+        if os.getenv("REDIRECT_URL"):
+          return RedirectResponse(url=os.getenv("REDIRECT_URL"), status_code=301)
+        return PlainTextResponse("OK")
+
     async def setup():
         for tool in await proxy.list_tools():
             mcp.add_tool(
