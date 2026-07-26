@@ -82,9 +82,10 @@ if __name__ == "__main__":
                     tool,
                     transform_args={
                         "extraArgs": ArgTransform(
-                            default=["--cdp", resolve_hostname(os.getenv("CDP_PORT"))]
+                            hide = True,
+                            default_factory=lambda: ["--cdp", resolve_hostname(os.getenv("CDP_PORT"))]
                             if os.getenv("CDP_PORT")
-                            else []
+                            else list
                         ),
                     },
                 )
