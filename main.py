@@ -9,6 +9,8 @@ from fastmcp.server.dependencies import get_access_token
 from fastmcp.server.middleware import Middleware, MiddlewareContext
 from fastmcp.tools import Tool
 from fastmcp.tools.tool_transform import ArgTransform
+from starlette.requests import Request
+from starlette.responses import PlainTextResponse, RedirectResponse
 
 
 def resolve_hostname(url):
@@ -80,7 +82,7 @@ if __name__ == "__main__":
         return PlainTextResponse("OK")
 
     @mcp.custom_route("/", methods=["GET"])
-    async def health_check(request: Request) -> PlainTextResponse:
+    async def redirect(request: Request) -> PlainTextResponse:
         if os.getenv("REDIRECT_URL"):
           return RedirectResponse(url=os.getenv("REDIRECT_URL"), status_code=301)
         return PlainTextResponse("OK")
