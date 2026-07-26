@@ -55,6 +55,11 @@ jobs:
             agent-browser-mcp
           sleep 3
 
+      - name: Check health endpoints
+        run: |
+          curl -sf http://127.0.0.1:8000/ | grep -Fx "OK"
+          curl -sf http://127.0.0.1:8000/healthz | grep -Fx "OK"
+
       - name: Setup uv
         uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9
 
