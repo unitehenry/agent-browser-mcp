@@ -11,17 +11,9 @@ from fastmcp.tools import Tool
 from fastmcp.tools.tool_transform import ArgTransform
 
 
-def resolve_hostname_in_url(url: str) -> str:
-    """
-    Attempt to resolve the hostname in a URL to an IP address and replace it.
-    Returns the original URL unchanged if resolution fails or no hostname is present.
-    
-    Example:
-        resolve_hostname_in_url("http://xpod-chromium:9222")
-        → "http://172.17.0.2:9222"   (or whatever the IP is)
-    """
-    from urllib.parse import urlparse, urlunparse
+def resolve_hostname(url):
     import socket
+    from urllib.parse import urlparse, urlunparse
 
     parsed = urlparse(url)
 
@@ -90,7 +82,7 @@ if __name__ == "__main__":
                     tool,
                     transform_args={
                         "extraArgs": ArgTransform(
-                            default=["--cdp", os.getenv("CDP_PORT")]
+                            default=["--cdp", resolve_hostname(os.getenv("CDP_PORT"))]
                             if os.getenv("CDP_PORT")
                             else []
                         ),
